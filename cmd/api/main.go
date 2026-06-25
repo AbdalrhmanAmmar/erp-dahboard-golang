@@ -17,10 +17,14 @@ func main() {
 	if err := database.Connect(cfg.DatabaseURL); err != nil {
 		log.Fatalf("database error: %v", err)
 	}
+	if err:= database.Migrate(); err != nil {
+		log.Fatalf("migration error: %v", err)
+	}
 
 	srv := server.New()
 	log.Printf("server running on port %s", cfg.AppPort)
 	if err := srv.Run(":" + cfg.AppPort); err != nil {
 		log.Fatalf("server error: %v", err)
 	}
+
 }
