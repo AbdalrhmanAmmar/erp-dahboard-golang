@@ -4,6 +4,8 @@ import (
 	"log"
 
 	"github.com/AbdalrhmanAmmar/erp-dahboard-golang/internal/config"
+	"github.com/AbdalrhmanAmmar/erp-dahboard-golang/internal/database"
+	"github.com/AbdalrhmanAmmar/erp-dahboard-golang/internal/server"
 )
 
 func main() {
@@ -11,6 +13,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("config error: %v", err)
 	}
-	_ = cfg // هتستخدمها في الاتصال بالداتابيز
-	// ... باقي الإعداد
+
+	if err := database.Connect(cfg.DatabaseURL); err != nil {
+		log.Fatalf("database error: %v", err)
+	}
+
+	srv := server.New()
+	log.Printf("server running on port %s", cfg.AppPort)
+	if err := srv.Run(":" + cfg.AppPort); err != nil {
+		log.Fatalf("server error: %v", err)
+	}
 }

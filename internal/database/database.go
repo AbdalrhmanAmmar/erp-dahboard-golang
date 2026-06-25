@@ -18,6 +18,7 @@ func Connect(databaseURL string) error {
 	db, err := gorm.Open(postgres.Open(databaseURL), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info), // يطبع الـ SQL في التطوير
 	})
+	
 	if err != nil {
 		return fmt.Errorf("failed to connect to database: %w", err)
 	}
